@@ -1,0 +1,8 @@
+[submodule "code/api"]
+    path = code/api
+    url = git@github.com:licards/api
+    ignore = all
+[submodule "code/web"]
+    path = code/web
+    url = git@github.com:licards/web
+    ignore = all
