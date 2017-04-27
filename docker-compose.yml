@@ -1,13 +1,6 @@
 version: '2'
 services:
 
-  # Source
-  applications:
-    container_name: application
-    image: tianon/true
-    volumes:
-      - ./code/api:/var/www/html
-
   # nginx reverse proxy
   nginx:
     container_name: nginx
@@ -25,17 +18,16 @@ services:
     build:
       context: ./containers/web_app
     volumes:
-      - ./code/web:/usr/src/app
+      - ./code/web:/root/app
 
   # Apache
   apache2:
     container_name: apache2
     build:
       context: ./containers/apache2
-    volumes_from:
-      - applications
     volumes:
       - ./logs/apache2:/var/log/apache2
+      - ./code/api:/var/www/html
     links:
       - "db"
 
@@ -50,7 +42,7 @@ services:
         - MYSQL_PASSWORD=secret
         - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "3306:3306"
+      - "32768:32768"
 
   # phpMyAdmin
   phpmyadmin:
@@ -62,7 +54,7 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "8080:80"
+      - "32769:80"
     links:
       - "db:db"
         

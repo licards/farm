@@ -1,6 +1,7 @@
-FROM nodesource/node:4
+FROM node:7.9
 
-CMD [ "npm", "start" ]
+WORKDIR "/root/app"
+
+CMD ["npm", "start"]
 
 EXPOSE 3000
-

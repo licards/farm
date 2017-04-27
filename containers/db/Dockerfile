@@ -22,4 +22,4 @@ VOLUME /var/lib/mysql
 
 CMD ["mysqld", "--init-file=/etc/mysql/startup"]
 
-EXPOSE 3306
+EXPOSE 32768

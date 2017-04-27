@@ -12,6 +12,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     vim \
     curl \
+    wget \
     libmemcached-dev \
     libz-dev \
     libpq-dev \
@@ -28,12 +29,21 @@ RUN docker-php-ext-install mcrypt \
 RUN pecl install xdebug && \
   docker-php-ext-enable xdebug
 
+# configuring apache
+RUN echo "ServerName localhost" >> /etc/apache2/conf-available/docker-php.conf
+
 # adding vhost
 ADD ./vhost.conf /etc/apache2/sites-available/api.licards.conf
-RUN a2ensite 000-default
-RUN a2ensite api.licards
 
+RUN a2ensite api.licards
 RUN a2enmod rewrite
 
 # restarting apache
-RUN service apache2 restart
+RUN service apache2 start
+
+# install composer
+RUN curl -sS https://getcomposer.org/installer | php
+
+# www-data user permission
+RUN usermod -u 1000 www-data
+RUN usermod -G staff www-data
