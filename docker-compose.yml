@@ -1,0 +1,72 @@
+version: '2'
+services:
+
+  # Source
+  applications:
+    container_name: application
+    image: tianon/true
+    volumes:
+      - ./code/api:/var/www/html
+
+  # nginx reverse proxy
+  nginx:
+    container_name: nginx
+    build:
+      context: ./containers/nginx
+    ports:
+      - "80:80"
+    links:
+      - "apache2"
+      - "web_app"
+
+  # Node web app
+  web_app:
+    container_name: web_app
+    build:
+      context: ./containers/web_app
+    volumes:
+      - ./code/web:/usr/src/app
+
+  # Apache
+  apache2:
+    container_name: apache2
+    build:
+      context: ./containers/apache2
+    volumes_from:
+      - applications
+    volumes:
+      - ./logs/apache2:/var/log/apache2
+    links:
+      - "db"
+
+  # MySQL
+  db:
+    container_name: db
+    build:
+      context: ./containers/db
+      args:
+        - MYSQL_DATABASE=homestead
+        - MYSQL_USER=homestead
+        - MYSQL_PASSWORD=secret
+        - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    build: ./containers/phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+    links:
+      - "db:db"
+        
+# Volumes
+volumes:
+  mysql:
+    driver: "local"
