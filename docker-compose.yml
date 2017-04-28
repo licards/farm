@@ -12,7 +12,7 @@ services:
       - "apache2"
       - "web_app"
 
-  # Node web app
+  # node web app
   web_app:
     container_name: web_app
     build:
@@ -20,7 +20,7 @@ services:
     volumes:
       - ./code/web:/root/app
 
-  # Apache
+  # apache2
   apache2:
     container_name: apache2
     build:
@@ -31,7 +31,7 @@ services:
     links:
       - "db"
 
-  # MySQL
+  # mysql
   db:
     container_name: db
     build:
@@ -44,7 +44,7 @@ services:
     ports:
       - "3306:3306"
 
-  # phpMyAdmin
+  # phpmyadmin
   phpmyadmin:
     container_name: phpmyadmin
     build: ./containers/phpmyadmin
@@ -57,6 +57,14 @@ services:
       - "32769:80"
     links:
       - "db:db"
+
+  # redis
+  redis:
+    container_name: redis
+    build:
+      context: ./containers/redis
+    ports:
+      - "6379:6379"
         
 # Volumes
 volumes:
