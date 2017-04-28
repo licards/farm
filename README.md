@@ -3,5 +3,5 @@
     git clone --recursive https://github.com/licards/farm.git
     cd farm
      
-    sudo bash build-local-farm.sh
+    sudo bash setup.sh
     docker-compose up
