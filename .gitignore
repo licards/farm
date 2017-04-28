@@ -1,3 +1,7 @@
 logs
 .idea
 
+# submodules
+code/api
+code/web
+
