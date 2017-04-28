@@ -1,6 +1,8 @@
 [submodule "code/web"]
 	path = code/web
 	url = https://github.com/licards/web
+	branch = master
 [submodule "code/api"]
 	path = code/api
 	url = https://github.com/licards/api
+	branch = master
